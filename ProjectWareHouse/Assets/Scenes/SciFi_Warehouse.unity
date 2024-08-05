@@ -2663,6 +2663,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: fcb334eb247ae3e488abb081c847cf09, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 775b21e695a77bd4c9bacd5d8cdaa3ca, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2704,7 +2708,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &143954340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2717,6 +2721,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae0a4dcdc70992240964a6558f4190c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpPower: 5
+  isJumping: 0
+  hp: 20
+  hpSlider: {fileID: 0}
+  hitEffect: {fileID: 0}
 --- !u!1001 &144054082
 PrefabInstance:
   m_ObjectHideFlags: 0

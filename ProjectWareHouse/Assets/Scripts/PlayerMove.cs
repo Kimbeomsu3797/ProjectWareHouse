@@ -36,7 +36,7 @@ public class PlayerMove : MonoBehaviour
         dir = dir.normalized;
         dir = Camera.main.transform.TransformDirection(dir);
         transform.position += dir * playerSpeed * Time.deltaTime;
-        anim.SetFloat("MoveMoition", dir.magnitude);
+        anim.SetFloat("Float", dir.magnitude);
         if(isJumping && cC.collisionFlags == CollisionFlags.Below)
         {
             isJumping = false;
@@ -49,7 +49,7 @@ public class PlayerMove : MonoBehaviour
         }
         yvelocity += gravityForce * Time.deltaTime;
         dir.y = yvelocity;
-        if (Input.GetButton("LeftShift"))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
             cC.Move(dir * playerSpeed/2 * Time.deltaTime);
         }

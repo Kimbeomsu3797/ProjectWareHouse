@@ -1,32 +1,64 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMove : MonoBehaviour
 {
+    float h;
+    float z;
+    float playerSpeed = 5f;
+
     CharacterController cC;
     float gravityForce = -20f;
-    bool isGround = true;
+    float yvelocity = 0;
+    public float jumpPower = 10f;
+    public bool isJumping = false;
+    public int hp = 20;
+    int maxHp = 20;
+    public Slider hpSlider;
+    public GameObject hitEffect;
+    Animator anim;
     // Start is called before the first frame update
     void Start()
     {
         cC = GetComponent<CharacterController>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-        Vector3 movePos = transform.forward * h + transform.right * v;
-        cC.Move(movePos * Time.deltaTime);
-        if (cC.collisionFlags==CollisionFlags.Below)
+        
+        h = Input.GetAxis("Horizontal");
+        z = Input.GetAxis("Vertical");
+        Vector3 dir = new Vector3(h, 0, z);
+        dir = dir.normalized;
+        dir = Camera.main.transform.TransformDirection(dir);
+        transform.position += dir * playerSpeed * Time.deltaTime;
+        anim.SetFloat("MoveMoition", dir.magnitude);
+        if(isJumping && cC.collisionFlags == CollisionFlags.Below)
         {
-            isGround = true;
+            isJumping = false;
+            yvelocity = 0;
         }
-        else if (!isGround)
+        if(Input.GetButtonDown("Jump") && !isJumping)
         {
-
+            yvelocity = jumpPower;
+            isJumping = true;
         }
+        yvelocity += gravityForce * Time.deltaTime;
+        dir.y = yvelocity;
+        if (Input.GetButton("LeftShift"))
+        {
+            cC.Move(dir * playerSpeed/2 * Time.deltaTime);
+        }
+        else
+        {
+            cC.Move(dir * playerSpeed * Time.deltaTime);
+        }
+        
+       // hpSlider.value = (float)hp / (float)maxHp;
     }
+
 }

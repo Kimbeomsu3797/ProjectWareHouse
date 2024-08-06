@@ -18,7 +18,7 @@ public class PlayerFire : MonoBehaviour
     public GameObject firePosition;
     public GameObject grenadeFactory;
     public float throwPower = 15f;
-    ParticleSystem[] ps;
+    ParticleSystem ps;
     public GameObject bulletEffect;
     Animator anim;
     public Text gameState;
@@ -36,6 +36,7 @@ public class PlayerFire : MonoBehaviour
         wMode = WeaponMode.Rifle;
         weaponMode.text = "Rifle";
         bulletEffectPool = new List<GameObject>();
+        ps = bulletEffect.GetComponent<ParticleSystem>();
         for (int i = 0; i < 15; i++)
         {
             GameObject bullet = Instantiate(bulletEffect);
@@ -50,6 +51,8 @@ public class PlayerFire : MonoBehaviour
         {
             Ray ray = new Ray(Camera.main.transform.position,Camera.main.transform.forward);
             RaycastHit hit = new RaycastHit();
+            //Debug.DrawRay(transform.position,)
+                
             if(Physics.Raycast(ray,out hit))
             {
                 if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
@@ -62,11 +65,11 @@ public class PlayerFire : MonoBehaviour
                     bulletEffect.transform.position = hit.point;
                     bulletEffect.transform.forward = hit.point;
 
-                    //ps.play(); 이펙트 플레이
+                    ps.Play();
                 }
             }
         }
-        delay += Time.deltaTime;
+        /*delay += Time.deltaTime;
         if (Input.GetMouseButton(0) && delay >= 0.075f )//&& DataManager.instance.bullet >= 1)
         {
             //레이를 생성한 후 발사될 위치와 진행 방향을 설정한다.
@@ -87,6 +90,6 @@ public class PlayerFire : MonoBehaviour
                 delay = 0f;
                 bulletEffectPool.Add(bullet);
             }
-        }
+        }*/
     }
 }

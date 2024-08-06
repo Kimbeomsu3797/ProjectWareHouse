@@ -10,7 +10,7 @@ public class PlayerMove : MonoBehaviour
     float playerSpeed = 5f;
 
     CharacterController cC;
-    float gravityForce = -20f;
+    float gravityForce = -15f;
     float yvelocity = 0;
     public float jumpPower = 10f;
     public bool isJumping = false;

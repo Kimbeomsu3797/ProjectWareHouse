@@ -29,7 +29,7 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        #region
         h = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
         Vector3 dir = new Vector3(h, 0, z);
@@ -57,8 +57,8 @@ public class PlayerMove : MonoBehaviour
         {
             cC.Move(dir * playerSpeed * Time.deltaTime);
         }
-        
-       // hpSlider.value = (float)hp / (float)maxHp;
+        #endregion
+        // hpSlider.value = (float)hp / (float)maxHp;
     }
 
 }

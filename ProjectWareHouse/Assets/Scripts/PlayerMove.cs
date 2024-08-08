@@ -10,7 +10,7 @@ public class PlayerMove : MonoBehaviour
     float playerSpeed = 5f;
 
     CharacterController cC;
-    float gravityForce = -15f;
+    float gravityForce = -9.81f;
     float yvelocity = 0;
     public float jumpPower = 10f;
     public bool isJumping = false;
@@ -52,10 +52,12 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
         {
             cC.Move(dir * playerSpeed/2 * Time.deltaTime);
+            anim.speed = 0.5f;
         }
         else
         {
             cC.Move(dir * playerSpeed * Time.deltaTime);
+            anim.speed = 1f;
         }
         #endregion
         // hpSlider.value = (float)hp / (float)maxHp;

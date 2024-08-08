@@ -32,7 +32,7 @@ public class PlayerFire : MonoBehaviour
     void Start()
     {
         //ps[] = bulletEffect.GetComponent<ParticleSystem>();
-        anim = GetComponentInChildren<Animator>();
+        anim = GetComponent<Animator>();
         wMode = WeaponMode.Rifle;
         weaponMode.text = "Rifle";
         bulletEffectPool = new List<GameObject>();

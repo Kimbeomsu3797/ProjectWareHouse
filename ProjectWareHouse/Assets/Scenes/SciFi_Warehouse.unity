@@ -2727,11 +2727,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae0a4dcdc70992240964a6558f4190c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpPower: 5
+  jumpPower: 3
   isJumping: 0
   hp: 20
   hpSlider: {fileID: 0}
-  hitEffect: {fileID: 0}
+  hitEffect: {fileID: 1209865678}
 --- !u!4 &143954342 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400060, guid: fcb334eb247ae3e488abb081c847cf09, type: 3}

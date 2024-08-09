@@ -366,8 +366,11 @@
 "Assets/SciFi Warehouse Kit/Demo/Scripts/PlayerMovement.cs"
 "Assets/SciFi Warehouse Kit/Demo/Scripts/PlayRandomSound.cs"
 "Assets/SciFi Warehouse Kit/Demo/Scripts/PushPhysics.cs"
-"Assets/Scripts/PlayerFire.cs"
-"Assets/Scripts/PlayerMove.cs"
+"Assets/Scripts/Camera/CameraPos.cs"
+"Assets/Scripts/Camera/CameraRotation.cs"
+"Assets/Scripts/Player/PlayerFire.cs"
+"Assets/Scripts/Player/PlayerMove.cs"
+"Assets/Scripts/Player/PlayerRotate.cs"
 -langversion:9.0
 
 /deterministic

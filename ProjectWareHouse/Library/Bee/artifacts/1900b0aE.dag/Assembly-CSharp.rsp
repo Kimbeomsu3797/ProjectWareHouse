@@ -368,6 +368,8 @@
 "Assets/SciFi Warehouse Kit/Demo/Scripts/PushPhysics.cs"
 "Assets/Scripts/Camera/CameraPos.cs"
 "Assets/Scripts/Camera/CameraRotation.cs"
+"Assets/Scripts/Enemy/EnemyFSM.cs"
+"Assets/Scripts/Player/HistoryPlayerFire.cs"
 "Assets/Scripts/Player/PlayerFire.cs"
 "Assets/Scripts/Player/PlayerMove.cs"
 "Assets/Scripts/Player/PlayerRotate.cs"

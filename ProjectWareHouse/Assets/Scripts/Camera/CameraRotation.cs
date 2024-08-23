@@ -22,6 +22,6 @@ public class CameraRotation : MonoBehaviour
         mouseX += mouse_X * rotSpeed * Time.deltaTime;
         mouseY += mouse_Y * rotSpeed * Time.deltaTime;
         mouseY = Mathf.Clamp(mouseY, -30f, 30f);
-        transform.eulerAngles = new Vector3(-mouseX, mouseY, 0);
+        transform.eulerAngles = new Vector3(-mouseY, mouseX, 0);
     }
 }

@@ -2752,15 +2752,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc6e55d1a76f65c479aec756b07a8731, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firePosition: {fileID: 166873590}
-  grenadeFactory: {fileID: 0}
-  throwPower: 15
-  bulletEffect: {fileID: 1209865678}
-  gameState: {fileID: 0}
-  weaponMode: {fileID: 0}
-  eff_Flash: []
-  bulletEffectPool: []
-  delay: 0.075
+  bulletEffectPrefab: {fileID: 1209865678}
+  poolSize: 15
 --- !u!114 &143954345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21409,7 +21402,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0, y: -0.2815113, z: -0, w: 0.95955795}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.927, y: 2.331, z: 16.412}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

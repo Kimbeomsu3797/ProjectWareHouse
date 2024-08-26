@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\jwk87\\OneDrive\\Documents\\GitHub\\ProjectWareHouse\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8356568D-80CA-AB63-F0F7-52533F51DD57}|Assembly-CSharp.csproj|c:\\users\\jwk87\\onedrive\\documents\\github\\projectwarehouse\\assets\\scripts\\player\\playerfire.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8356568D-80CA-AB63-F0F7-52533F51DD57}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playerfire.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8356568D-80CA-AB63-F0F7-52533F51DD57}|Assembly-CSharp.csproj|C:\\Users\\jwk87\\OneDrive\\Documents\\GitHub\\ProjectWareHouse\\assets\\scripts\\player\\historyplayerfire.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8356568D-80CA-AB63-F0F7-52533F51DD57}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\historyplayerfire.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HistoryPlayerFire.cs",
+              "DocumentMoniker": "C:\\Users\\jwk87\\OneDrive\\Documents\\GitHub\\ProjectWareHouse\\Assets\\Scripts\\Player\\HistoryPlayerFire.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\HistoryPlayerFire.cs",
+              "ToolTip": "C:\\Users\\jwk87\\OneDrive\\Documents\\GitHub\\ProjectWareHouse\\Assets\\Scripts\\Player\\HistoryPlayerFire.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Player\\HistoryPlayerFire.cs",
+              "ViewState": "AQIAAEEAAAAAAAAAAAAQwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-26T11:09:47.427Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PlayerFire.cs",
+              "DocumentMoniker": "C:\\Users\\jwk87\\OneDrive\\Documents\\GitHub\\ProjectWareHouse\\Assets\\Scripts\\Player\\PlayerFire.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerFire.cs",
+              "ToolTip": "C:\\Users\\jwk87\\OneDrive\\Documents\\GitHub\\ProjectWareHouse\\Assets\\Scripts\\Player\\PlayerFire.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerFire.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFUAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-26T11:03:03.779Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

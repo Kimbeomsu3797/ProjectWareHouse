@@ -29,7 +29,7 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        #region simplemove로 변경예정
+        #region
         h = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
         Vector3 dir = new Vector3(h, 0, z);

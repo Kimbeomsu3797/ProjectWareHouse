@@ -2,16 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+enum FireState
+{
+    Rifle,
+    Snipe,
+    Bomb
+}
+enum bombState
+{
+    start,
+    release,
+    fire
+}
+
 public class PlayerFire : MonoBehaviour
 {
+    private enum MouseState
+    {
+        Idle,   // 마우스 클릭 없음
+        Start,  // 클릭 시작
+        Release,// 클릭 유지 중
+        Fire    // 클릭 해제
+    }
+    FireState state = FireState.Rifle;
     public GameObject bulletEffectPrefab; // Prefab으로서의 총알 이펙트
     public int poolSize = 15;
     private List<GameObject> bulletEffectPool;
     private float delay = 0.075f;
-    Animator anim;
+
     void Start()
     {
-        anim = GetComponentInChildren<Animator>();
+        
         // 풀 초기화
         bulletEffectPool = new List<GameObject>();
         for (int i = 0; i < poolSize; i++)
@@ -24,11 +45,45 @@ public class PlayerFire : MonoBehaviour
 
     void Update()
     {
-        delay += Time.deltaTime;
-        if (Input.GetMouseButton(0) && delay >= 0.075f)
+        switch (state)
         {
-            FireBullet();
-            delay = 0f;
+            case FireState.Rifle:
+                delay += Time.deltaTime;
+                if (Input.GetMouseButton(0) && delay >= 0.075f)
+                {
+                    FireBullet();
+                    delay = 0f;
+                }
+                break;
+            case FireState.Snipe:
+                delay += Time.deltaTime;
+                if (Input.GetMouseButtonDown(0) && delay >= 1)
+                {
+                    FireBullet();
+                    delay = 0f;
+                }
+                break;
+            case FireState.Bomb:
+                bulletFire();
+                break;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            state = FireState.Rifle;
+            //다른 상태에서의 변화 해제
+            //bombaction상태 idle로 변경
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            state = FireState.Snipe;
+            //다른 상태에서의 변화 해제
+            //bombaction상태 idle로 변경
+        }
+        else if(Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            state = FireState.Bomb;
+            //다른 상태에서의 변화 해제
+            //bombaction상태 idle로 변경
         }
     }
 
@@ -51,7 +106,6 @@ public class PlayerFire : MonoBehaviour
                 // 피격 이펙트 활성화
                 bullet.SetActive(true);
                 bullet.GetComponent<ParticleSystem>().Play();
-                anim.SetTrigger("Shoot");
                 // 일정 시간 후 비활성화
                 StartCoroutine(DeactivateBullet(bullet, bullet.GetComponent<ParticleSystem>().main.duration));
             }
@@ -77,5 +131,43 @@ public class PlayerFire : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         bullet.SetActive(false);
+    }
+    private MouseState currentState = MouseState.Idle;
+    public void bulletFire()
+    {
+        switch (currentState)
+        {
+            case MouseState.Idle:
+                if (Input.GetMouseButtonDown(0)) // 좌클릭이 눌린 경우
+                {
+                    currentState = MouseState.Start;
+                }
+                break;
+
+            case MouseState.Start:
+                if (Input.GetMouseButton(0)) // 좌클릭이 계속 눌려진 경우
+                {
+                    currentState = MouseState.Release;
+                }
+                else if (Input.GetMouseButtonUp(0)) // 좌클릭이 해제된 경우
+                {
+                    currentState = MouseState.Fire;
+                }
+                break;
+
+            case MouseState.Release:
+                if (Input.GetMouseButtonUp(0)) // 좌클릭이 해제된 경우
+                {
+                    currentState = MouseState.Fire;
+                }
+                break;
+
+            case MouseState.Fire:
+                // 상태가 Fire로 전환된 후 수행할 작업을 여기에 추가합니다.
+                Debug.Log("Fire 상태에 진입했습니다.");
+                // 상태를 Idle로 리셋하여 마우스 클릭을 다시 시작할 수 있게 함
+                currentState = MouseState.Idle;
+                break;
+        }
     }
 }

@@ -53,7 +53,9 @@ public class PlayerFire : MonoBehaviour
                 {
                     FireBullet();
                     delay = 0f;
+                    
                 }
+                //우클릭을 유지하면서 좌클릭 시 딜레이 속도 증가
                 break;
             case FireState.Snipe:
                 delay += Time.deltaTime;
@@ -62,6 +64,7 @@ public class PlayerFire : MonoBehaviour
                     FireBullet();
                     delay = 0f;
                 }
+                //우클릭 시 줌 모드 + 좌클릭 딜레이 증가
                 break;
             case FireState.Bomb:
                 bulletFire();
@@ -72,18 +75,22 @@ public class PlayerFire : MonoBehaviour
             state = FireState.Rifle;
             //다른 상태에서의 변화 해제
             //bombaction상태 idle로 변경
+            //UI 이미지 라이플로 변경
+            
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             state = FireState.Snipe;
             //다른 상태에서의 변화 해제
             //bombaction상태 idle로 변경
+            //UI 이미지 스나이프로 변경
         }
         else if(Input.GetKeyDown(KeyCode.Alpha3))
         {
             state = FireState.Bomb;
             //다른 상태에서의 변화 해제
             //bombaction상태 idle로 변경
+            //UI 이미지 폭탄으로 변경
         }
     }
 
@@ -140,6 +147,7 @@ public class PlayerFire : MonoBehaviour
             case MouseState.Idle:
                 if (Input.GetMouseButtonDown(0)) // 좌클릭이 눌린 경우
                 {
+                    Debug.Log("모션이 시작됩니다.");
                     currentState = MouseState.Start;
                 }
                 break;
@@ -147,6 +155,7 @@ public class PlayerFire : MonoBehaviour
             case MouseState.Start:
                 if (Input.GetMouseButton(0)) // 좌클릭이 계속 눌려진 경우
                 {
+                    Debug.Log("릴리즈 상태에 진입합니다");
                     currentState = MouseState.Release;
                 }
                 else if (Input.GetMouseButtonUp(0)) // 좌클릭이 해제된 경우

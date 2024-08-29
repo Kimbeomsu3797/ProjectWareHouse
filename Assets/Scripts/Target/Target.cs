@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
+    private Transform spawnPoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,5 +21,21 @@ public class Target : MonoBehaviour
         //과녁에 총알이 충돌했다면 (particlecollider와 충돌했다면)
         //본인 파괴 + 점수 획득
         //본인이 파괴될 때 스폰포인트 다시 활성화
+    }
+    public void SetSpawnPoint(Transform spawnPoint)
+    {
+        this.spawnPoint = spawnPoint;
+    }
+
+    void OnDestroy()
+    {
+        if (spawnPoint != null)
+        {
+            Spawnpoint spm = FindObjectOfType<Spawnpoint>();
+            if (spm != null)
+            {
+                spm.AddSpawnPoint(spawnPoint); // 스폰 포인트 다시 활성화
+            }
+        }
     }
 }

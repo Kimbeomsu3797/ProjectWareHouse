@@ -14,11 +14,10 @@ public class UIManager : MonoBehaviour
     public Transform spawnPoint;
     public int minValue = 0;
     public int maxValue = 15;
+    private Spawnpoint sP;
     // Start is called before the first frame update
     void Start()
     {
-        //인풋 필드에 값이 입력되었을 때 그 값을 받아서 타겟 생성 or enemy 생성 - 완
-        //인풋 필드에는 숫자만 입력되어야함 -진행중
         //연습 모드 시작 시 enemy가 IDLE상태로 진입 
         //스폰포인트를 리스트로 관리하여 과녁이 생성된 스폰포인트를 리스트에서 제외
         //과녁이 생성될 때 스폰포인트를 비활성화
@@ -26,6 +25,11 @@ public class UIManager : MonoBehaviour
         //과녁 생성할 때 일정 시간의 딜레이를 주고 생성
         targetValue.onValueChanged.AddListener((input)=>ValidateInput(input,targetValue));
         enemyValue.onValueChanged.AddListener((input) => ValidateInput(input, enemyValue));
+        sP = FindObjectOfType<Spawnpoint>();
+        if (sP == null)
+        {
+            Debug.LogError("SpawnPointManager not found.");
+        }
     }
 
     private void ValidateInput(string input, InputField iF)
@@ -56,16 +60,24 @@ public class UIManager : MonoBehaviour
 
     public void OnbuttonClick(Button button)
     {
-        string tValue = targetValue.text;
-        string eValue = enemyValue.text;
+        string tValue = targetValue.text.Trim();
+        string eValue = enemyValue.text.Trim();
         
         if(button.name == "TargetButton")
         {
             if (int.TryParse(tValue, out int number))
             {
+                spawnPoint = sP.GetRandomSpawnPoint();
                 for (int i = 0; i < number; i++)
                 {
-                    Instantiate(targetPrefab, spawnPoint.position, Quaternion.identity);//스폰포인트 랜덤 + 좌표가 겹치지않게 리스트로 값빼주기 해야함 + 비활성화 된 스폰포인트가 활성화되면 리스트에 다시 더해줘야함
+                    Debug.Log(number);
+                    GameObject target = Instantiate(targetPrefab, spawnPoint.position, Quaternion.identity);//스폰포인트 랜덤 + 좌표가 겹치지않게 리스트로 값빼주기 해야함 + 비활성화 된 스폰포인트가 활성화되면 리스트에 다시 더해줘야함
+                    Target targetScripts = target.GetComponent<Target>();
+                    if(targetScripts != null)
+                    {
+                        targetScripts.SetSpawnPoint(spawnPoint);
+                    }
+                    sP.RemoveSpawnPoint(spawnPoint);
                 }
             }
         }

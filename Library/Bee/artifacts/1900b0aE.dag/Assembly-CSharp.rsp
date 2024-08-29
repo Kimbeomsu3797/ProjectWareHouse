@@ -377,6 +377,7 @@
 "Assets/Scripts/Player/PlayerFire.cs"
 "Assets/Scripts/Player/PlayerMove.cs"
 "Assets/Scripts/Player/PlayerRotate.cs"
+"Assets/Scripts/Target/Spawnpoint.cs"
 "Assets/Scripts/Target/Target.cs"
 "Assets/Scripts/UI/UIManager.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01.cs"

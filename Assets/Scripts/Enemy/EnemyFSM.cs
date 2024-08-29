@@ -8,6 +8,7 @@ public class EnemyFSM : MonoBehaviour
 {
     enum EnemyState
     {
+        Wait,
         Idle,
         Move,
         Attack,
@@ -49,7 +50,7 @@ public class EnemyFSM : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_State = EnemyState.Idle;
+        m_State = EnemyState.Idle;//Wait으로 변경
         player = GameObject.Find("Player").transform;
         cc = GetComponent<CharacterController>();
         originPos = transform.position;

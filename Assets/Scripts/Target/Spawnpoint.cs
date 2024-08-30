@@ -5,6 +5,7 @@ using UnityEngine;
 public class Spawnpoint : MonoBehaviour
 {
     public List<Transform> spawnPoints = new List<Transform>();
+ 
     // Start is called before the first frame update
     void Start()
     {

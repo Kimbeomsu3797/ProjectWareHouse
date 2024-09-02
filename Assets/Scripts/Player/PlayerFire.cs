@@ -29,10 +29,10 @@ public class PlayerFire : MonoBehaviour
     public int poolSize = 15;
     private List<GameObject> bulletEffectPool;
     private float delay = 0.075f;
-
+    Animator anim;
     void Start()
     {
-        
+        anim = GetComponent<Animator>();
         // 풀 초기화
         bulletEffectPool = new List<GameObject>();
         for (int i = 0; i < poolSize; i++)
@@ -51,6 +51,7 @@ public class PlayerFire : MonoBehaviour
                 delay += Time.deltaTime;
                 if (Input.GetMouseButton(0) && delay >= 0.075f)
                 {
+                    anim.SetTrigger("Shoot");
                     FireBullet();
                     delay = 0f;
                     

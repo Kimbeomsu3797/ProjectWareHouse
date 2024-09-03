@@ -51,6 +51,7 @@ public class PlayerFire : MonoBehaviour
                 delay += Time.deltaTime;
                 if (Input.GetMouseButton(0) && delay >= 0.075f)
                 {
+                    anim.SetTrigger("Shoot");
                     FireBullet();
                     delay = 0f;
                     

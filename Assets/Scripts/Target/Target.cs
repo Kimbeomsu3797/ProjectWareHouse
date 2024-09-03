@@ -16,6 +16,12 @@ public class Target : MonoBehaviour
     {
         
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        //과녁에 총알이 충돌했다면 (particlecollider와 충돌했다면)
+        //본인 파괴 + 점수 획득
+        //본인이 파괴될 때 스폰포인트 다시 활성화
+    }
     public void SetSpawnPoint(Transform spawnPoint)
     {
         this.spawnPoint = spawnPoint;
@@ -29,7 +35,6 @@ public class Target : MonoBehaviour
             if (spm != null)
             {
                 spm.AddSpawnPoint(spawnPoint); // 스폰 포인트 다시 활성화
-                
             }
         }
     }

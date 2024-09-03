@@ -56,7 +56,7 @@ public class PlayerFire : MonoBehaviour
                     delay = 0f;
                     
                 }
-                
+                //우클릭을 유지하면서 좌클릭 시 딜레이 속도 증가
                 break;
             case FireState.Snipe:
                 delay += Time.deltaTime;
@@ -68,7 +68,7 @@ public class PlayerFire : MonoBehaviour
                 //우클릭 시 줌 모드 + 좌클릭 딜레이 증가
                 break;
             case FireState.Bomb:
-                BombFire();
+                bulletFire();
                 break;
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -141,7 +141,7 @@ public class PlayerFire : MonoBehaviour
         bullet.SetActive(false);
     }
     private MouseState currentState = MouseState.Idle;
-    public void BombFire()
+    public void bulletFire()
     {
         switch (currentState)
         {
@@ -149,8 +149,6 @@ public class PlayerFire : MonoBehaviour
                 if (Input.GetMouseButtonDown(0)) // 좌클릭이 눌린 경우
                 {
                     Debug.Log("모션이 시작됩니다.");
-                    //여기에 릴리즈 상태로 들어가고
-                    anim.SetTrigger("Relase");
                     currentState = MouseState.Start;
                 }
                 break;
@@ -159,12 +157,10 @@ public class PlayerFire : MonoBehaviour
                 if (Input.GetMouseButton(0)) // 좌클릭이 계속 눌려진 경우
                 {
                     Debug.Log("릴리즈 상태에 진입합니다");
-                    //릴리즈 상태에서 모션이 멈춰야함
-                    anim.SetTrigger("Stay");
+                    currentState = MouseState.Release;
                 }
                 else if (Input.GetMouseButtonUp(0)) // 좌클릭이 해제된 경우
                 {
-                    anim.SetTrigger("StayToFire");
                     currentState = MouseState.Fire;
                 }
                 break;
@@ -172,28 +168,16 @@ public class PlayerFire : MonoBehaviour
             case MouseState.Release:
                 if (Input.GetMouseButtonUp(0)) // 좌클릭이 해제된 경우
                 {
-                    anim.SetTrigger("ReleaseToFire");
                     currentState = MouseState.Fire;
-                    //파이어 동작으로 진입
                 }
                 break;
 
             case MouseState.Fire:
                 // 상태가 Fire로 전환된 후 수행할 작업을 여기에 추가합니다.
-                //BombThrow();
                 Debug.Log("Fire 상태에 진입했습니다.");
+                // 상태를 Idle로 리셋하여 마우스 클릭을 다시 시작할 수 있게 함
                 currentState = MouseState.Idle;
                 break;
         }
-    }
-    public GameObject bombFactory;
-    public GameObject firePosition;
-    public int throwPower = 5;
-    void BombThrow()
-    {
-        GameObject bomb = Instantiate(bombFactory);
-        bomb.transform.position = firePosition.transform.position;
-        Rigidbody rb = bomb.GetComponent<Rigidbody>();
-        rb.AddForce(Camera.main.transform.forward * throwPower, ForceMode.Impulse);
     }
 }

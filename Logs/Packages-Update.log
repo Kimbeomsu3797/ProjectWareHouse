@@ -58,3 +58,22 @@ Update Mode: updateDependencies
 
 The following packages were updated:
   com.unity.probuilder from version 5.2.2 to 5.2.3
+
+=== Wed Sep  4 16:04:22 2024
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.addressables from version 1.21.19 to 1.22.2
+
+=== Wed Sep  4 16:04:22 2024
+
+Packages were changed.
+Update Mode: mergeDefaultDependencies
+
+The following packages were added:
+  com.unity.addressables@1.22.2
+  com.unity.localization@1.5.2
+The following packages were updated:
+  com.unity.textmeshpro from version 3.0.6 to 3.0.9

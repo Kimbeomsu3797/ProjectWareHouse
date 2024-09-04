@@ -8,13 +8,6 @@ enum FireState
     Snipe,
     Bomb
 }
-enum bombState
-{
-    start,
-    release,
-    fire
-}
-
 public class PlayerFire : MonoBehaviour
 {
     private enum MouseState
@@ -26,14 +19,28 @@ public class PlayerFire : MonoBehaviour
     }
     FireState state = FireState.Rifle;
     public GameObject bulletEffectPrefab; // Prefab으로서의 총알 이펙트
+    [Header("무기")]
     public int poolSize = 15;
     private List<GameObject> bulletEffectPool;
-    private float delay = 0.075f;
-    Animator anim;
     bool ZoomMode;
+    RectTransform roriPos;
+    RectTransform soriPos;
+    [SerializeField]
+    private float delay = 0.075f;
+    [Header("애니메이션")]
+    Animator anim;
+    [Header("무기 이미지")]
+    public GameObject rifle;
+    public GameObject snipe;
+    public GameObject generate;
+    public GameObject rifleCrosshair;
+    public GameObject snipeCrosshair;
+    public GameObject sniper_Zoom;
     void Start()
     {
         anim = GetComponent<Animator>();
+        roriPos = rifleCrosshair.GetComponent<RectTransform>();
+        soriPos = snipeCrosshair.GetComponent<RectTransform>();
         // 풀 초기화
         bulletEffectPool = new List<GameObject>();
         for (int i = 0; i < poolSize; i++)
@@ -50,21 +57,33 @@ public class PlayerFire : MonoBehaviour
         {
             case FireState.Rifle:
                 delay += Time.deltaTime;
-                float RifleDelay = 0.075f;
-                if (Input.GetMouseButton(0) && delay >= RifleDelay)
-                {
-                    anim.SetTrigger("Shoot");
-                    FireBullet();
-                    delay = 0f;
-                    
-                }
+                //float RifleDelay = 0.075f;
+                
                 if (Input.GetMouseButton(1))
                 {
-                    RifleDelay = 0.5f;
+                    float RifleDelay = 0.5f;
+                    roriPos.sizeDelta = new Vector2(100, 100);
+                    if (Input.GetMouseButton(0) && delay >= RifleDelay)
+                    {
+                        anim.SetTrigger("Shoot");
+                        FireBullet();
+                        delay = 0f;
+                        //크로스헤어의 크기 증가
+                        
+                    }
                 }
                 else
                 {
-                    RifleDelay = 0.075f;
+                    float RifleDelay = 0.075f;
+                    roriPos.sizeDelta = new Vector2(50, 50);
+                    if (Input.GetMouseButton(0) && delay >= RifleDelay)
+                    {
+                        anim.SetTrigger("Shoot");
+                        FireBullet();
+                        delay = 0f;
+                        //크로스헤어의 크기 원상복구
+                        
+                    }
                 }
                 break;
             case FireState.Snipe:
@@ -80,11 +99,15 @@ public class PlayerFire : MonoBehaviour
                     {
                         Camera.main.fieldOfView = 15f;
                         ZoomMode = true;
+                        soriPos.sizeDelta = new Vector2(100, 100);
+                        sniper_Zoom.SetActive(true);
                     }
                     else
                     {
                         Camera.main.fieldOfView = 60f;
                         ZoomMode = false;
+                        soriPos.sizeDelta = new Vector2(50, 50);
+                        sniper_Zoom.SetActive(false);
                     }
                 }
                 //우클릭 시 줌 모드 + 좌클릭 딜레이 증가
@@ -98,25 +121,40 @@ public class PlayerFire : MonoBehaviour
             state = FireState.Rifle;
             ZoomMode = false;
             Camera.main.fieldOfView = 60f;
-            
+
             //UI 이미지 라이플로 변경
+            //다른 상태 이미지 제거
+            rifle.SetActive(true);
+            snipe.SetActive(false);
+            generate.SetActive(false);
+            sniper_Zoom.SetActive(false);
             currentState = MouseState.Idle;
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             state = FireState.Snipe;
-            
+
             //UI 이미지 스나이프로 변경
+            //다른 상태 이미지 제거
+            rifle.SetActive(false);
+            snipe.SetActive(true);
+            generate.SetActive(false);
+            roriPos.sizeDelta = new Vector2(50, 50);
             currentState = MouseState.Idle;
         }
         else if(Input.GetKeyDown(KeyCode.Alpha3))
         {
             state = FireState.Bomb;
-           
+
             //UI 이미지 폭탄으로 변경
+            //다른 상태 이미지 제거
+            rifle.SetActive(false);
+            snipe.SetActive(false);
+            generate.SetActive(true);
+            sniper_Zoom.SetActive(false);
             ZoomMode = false;
             Camera.main.fieldOfView = 60f;
-            
+            roriPos.sizeDelta = new Vector2(50, 50);
         }
     }
 
@@ -174,6 +212,7 @@ public class PlayerFire : MonoBehaviour
                 if (Input.GetMouseButtonDown(0)) // 좌클릭이 눌린 경우
                 {
                     Debug.Log("모션이 시작됩니다.");
+                    //수류탄 생성 + 왼손에 수류탄 자녀로 배치
                     currentState = MouseState.Start;
                 }
                 break;
@@ -197,10 +236,9 @@ public class PlayerFire : MonoBehaviour
                 }
                 break;
 
-            case MouseState.Fire:
-                // 상태가 Fire로 전환된 후 수행할 작업을 여기에 추가합니다.
+            case MouseState.Fire:// 상태가 Fire로 전환된 후 수행할 작업을 여기에 추가합니다.
                 Debug.Log("Fire 상태에 진입했습니다.");
-                // 상태를 Idle로 리셋하여 마우스 클릭을 다시 시작할 수 있게 함
+                //수류탄을 자식에서 해제하고 Addforce를 사용하여 투척
                 currentState = MouseState.Idle;
                 break;
         }

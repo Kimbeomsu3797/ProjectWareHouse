@@ -26,7 +26,7 @@ public class Target : MonoBehaviour
     {
         this.spawnPoint = spawnPoint;
     }
-
+    //타켓에 디스트로이 관련 함수를 작성하고 플레이어 파이어에서 호출?
     void OnDestroy()
     {
         if (spawnPoint != null)

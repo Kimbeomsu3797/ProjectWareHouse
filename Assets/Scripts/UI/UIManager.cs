@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     public int maxValue = 15;
     private Spawnpoint tsP;
     private Spawnpoint esP;
+    public float spawnDelay = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -66,18 +67,7 @@ public class UIManager : MonoBehaviour
         {
             if (int.TryParse(tValue, out int number))
             {
-                spawnPoint = tsP.GetRandomSpawnPoint();
-                for (int i = 0; i < number; i++)
-                {
-                    Debug.Log(number);
-                    GameObject target = Instantiate(targetPrefab, spawnPoint.position, Quaternion.identity);
-                    Target targetScripts = target.GetComponent<Target>();
-                    if(targetScripts != null)
-                    {
-                        targetScripts.SetSpawnPoint(spawnPoint);
-                    }
-                    tsP.RemoveSpawnPoint(spawnPoint);
-                }
+                targetSpawn(number);
             }
         }
         else if(button.name == "EnemyButton")
@@ -103,5 +93,22 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         
+    }
+    IEnumerator targetSpawn(int number)
+    {
+        
+        for (int i = 0; i < number; i++)
+        {
+            spawnPoint = tsP.GetRandomSpawnPoint();
+            Debug.Log(number);
+            GameObject target = Instantiate(targetPrefab, spawnPoint.position, Quaternion.identity);
+            Target targetScripts = target.GetComponent<Target>();
+            if (targetScripts != null)
+            {
+                targetScripts.SetSpawnPoint(spawnPoint);
+            }
+            tsP.RemoveSpawnPoint(spawnPoint);
+            yield return new WaitForSeconds(spawnDelay);
+        }
     }
 }

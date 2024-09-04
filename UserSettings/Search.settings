@@ -1,5 +1,6 @@
 trackSelection = true
 refreshSearchWindowsInPlayMode = false
+pickerAdvancedUI = false
 fetchPreview = true
 defaultFlags = 0
 keepOpen = false
@@ -11,6 +12,9 @@ scopes = {
 	"last_search.310DEAF1" = "ai"
 	"OpenInspectorPreview.310DEAF1" = "0"
 	"currentGroup.310DEAF1" = "all"
+	"last_search.66F56946" = "build"
+	"OpenInspectorPreview.66F56946" = "0"
+	"currentGroup.66F56946" = "all"
 }
 providers = {
 	adb = {
@@ -58,10 +62,21 @@ providers = {
 		priority = 25
 		defaultAction = null
 	}
+	st = {
+		active = true
+		priority = 100
+		defaultAction = null
+	}
+	at = {
+		active = true
+		priority = 100
+		defaultAction = null
+	}
 }
 objectSelectors = {
 }
 recentSearches = [
+	"b"
 ]
 searchItemFavorites = [
 ]

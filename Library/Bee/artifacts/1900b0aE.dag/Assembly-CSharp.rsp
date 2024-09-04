@@ -373,6 +373,7 @@
 "Assets/Scripts/Camera/CameraPos.cs"
 "Assets/Scripts/Camera/CameraRotation.cs"
 "Assets/Scripts/Enemy/EnemyFSM.cs"
+"Assets/Scripts/Player/Bomb.cs"
 "Assets/Scripts/Player/HistoryPlayerFire.cs"
 "Assets/Scripts/Player/PlayerFire.cs"
 "Assets/Scripts/Player/PlayerMove.cs"

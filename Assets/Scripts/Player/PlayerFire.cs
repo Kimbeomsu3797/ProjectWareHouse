@@ -30,6 +30,7 @@ public class PlayerFire : MonoBehaviour
     private List<GameObject> bulletEffectPool;
     private float delay = 0.075f;
     Animator anim;
+    bool ZoomMode;
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -49,14 +50,22 @@ public class PlayerFire : MonoBehaviour
         {
             case FireState.Rifle:
                 delay += Time.deltaTime;
-                if (Input.GetMouseButton(0) && delay >= 0.075f)
+                float RifleDelay = 0.075f;
+                if (Input.GetMouseButton(0) && delay >= RifleDelay)
                 {
                     anim.SetTrigger("Shoot");
                     FireBullet();
                     delay = 0f;
                     
                 }
-                //우클릭을 유지하면서 좌클릭 시 딜레이 속도 증가
+                if (Input.GetMouseButton(1))
+                {
+                    RifleDelay = 0.5f;
+                }
+                else
+                {
+                    RifleDelay = 0.075f;
+                }
                 break;
             case FireState.Snipe:
                 delay += Time.deltaTime;
@@ -64,6 +73,19 @@ public class PlayerFire : MonoBehaviour
                 {
                     FireBullet();
                     delay = 0f;
+                }
+                if (Input.GetMouseButtonDown(1))
+                {
+                    if (!ZoomMode)
+                    {
+                        Camera.main.fieldOfView = 15f;
+                        ZoomMode = true;
+                    }
+                    else
+                    {
+                        Camera.main.fieldOfView = 60f;
+                        ZoomMode = false;
+                    }
                 }
                 //우클릭 시 줌 모드 + 좌클릭 딜레이 증가
                 break;
@@ -74,24 +96,27 @@ public class PlayerFire : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             state = FireState.Rifle;
-            //다른 상태에서의 변화 해제
-            //bombaction상태 idle로 변경
-            //UI 이미지 라이플로 변경
+            ZoomMode = false;
+            Camera.main.fieldOfView = 60f;
             
+            //UI 이미지 라이플로 변경
+            currentState = MouseState.Idle;
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             state = FireState.Snipe;
-            //다른 상태에서의 변화 해제
-            //bombaction상태 idle로 변경
+            
             //UI 이미지 스나이프로 변경
+            currentState = MouseState.Idle;
         }
         else if(Input.GetKeyDown(KeyCode.Alpha3))
         {
             state = FireState.Bomb;
-            //다른 상태에서의 변화 해제
-            //bombaction상태 idle로 변경
+           
             //UI 이미지 폭탄으로 변경
+            ZoomMode = false;
+            Camera.main.fieldOfView = 60f;
+            
         }
     }
 
@@ -180,4 +205,5 @@ public class PlayerFire : MonoBehaviour
                 break;
         }
     }
+
 }

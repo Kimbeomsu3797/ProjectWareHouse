@@ -14,7 +14,8 @@ public class UIManager : MonoBehaviour
     public Transform spawnPoint;
     public int minValue = 0;
     public int maxValue = 15;
-    private Spawnpoint sP;
+    private Spawnpoint tsP;
+    private Spawnpoint esP;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,8 +23,9 @@ public class UIManager : MonoBehaviour
         //과녁 생성할 때 일정 시간의 딜레이를 주고 생성
         targetValue.onValueChanged.AddListener((input)=>ValidateInput(input,targetValue));
         enemyValue.onValueChanged.AddListener((input) => ValidateInput(input, enemyValue));
-        sP = FindObjectOfType<Spawnpoint>();
-        if (sP == null)
+        tsP = FindObjectOfType<Spawnpoint>();
+        esP = FindObjectOfType<Spawnpoint>();
+        if (tsP == null)
         {
             Debug.LogError("SpawnPointManager not found.");
         }
@@ -64,17 +66,17 @@ public class UIManager : MonoBehaviour
         {
             if (int.TryParse(tValue, out int number))
             {
-                spawnPoint = sP.GetRandomSpawnPoint();
+                spawnPoint = tsP.GetRandomSpawnPoint();
                 for (int i = 0; i < number; i++)
                 {
                     Debug.Log(number);
-                    GameObject target = Instantiate(targetPrefab, spawnPoint.position, Quaternion.identity);//스폰포인트 랜덤 + 좌표가 겹치지않게 리스트로 값빼주기 해야함 + 비활성화 된 스폰포인트가 활성화되면 리스트에 다시 더해줘야함
+                    GameObject target = Instantiate(targetPrefab, spawnPoint.position, Quaternion.identity);
                     Target targetScripts = target.GetComponent<Target>();
                     if(targetScripts != null)
                     {
                         targetScripts.SetSpawnPoint(spawnPoint);
                     }
-                    sP.RemoveSpawnPoint(spawnPoint);
+                    tsP.RemoveSpawnPoint(spawnPoint);
                 }
             }
         }
@@ -82,9 +84,11 @@ public class UIManager : MonoBehaviour
         {
             if (int.TryParse(eValue, out int number))
             {
+                spawnPoint = esP.GetRandomSpawnPoint();
                 for (int i = 0; i < number; i++)
                 {
-                    Instantiate(targetPrefab, spawnPoint.position, Quaternion.identity);//스폰포인트 랜덤 + 좌표가 겹치지않게 리스트로 값빼주기 해야함 + 비활성화 된 스폰포인트가 활성화되면 리스트에 다시 더해줘야함
+                    Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
+                    //스폰포인트 랜덤 + 좌표가 겹치지않게 리스트로 값빼주기 해야함 + 비활성화 된 스폰포인트가 활성화되면 리스트에 다시 더해줘야함
                     //에너미를 리스트에 담아야함
                 }
             }

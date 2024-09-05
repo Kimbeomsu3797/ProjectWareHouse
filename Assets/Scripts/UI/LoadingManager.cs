@@ -11,7 +11,7 @@ public class LoadingManager : MonoBehaviour
     //또한 현재 씬에는 로딩 진행률을 시각적으로 표현하고 싶다.
 
     //진행할 씬 번호
-    public int sceneNumber = 2;
+    public int sceneNumber;
     //로딩 슬라이더 바
     public Slider loadingBar;
     //로딩 진행 텍스트
@@ -43,16 +43,13 @@ public class LoadingManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        sceneNumber = PlayerPrefs.GetInt("loadSceneNum");
     }
 
     // Update is called once per frame
     void Update()
     {
-
-    }
-    public void CallScene(int sceneNumber)
-    {
         StartCoroutine(TransitionNextScene(sceneNumber));
     }
+   
 }

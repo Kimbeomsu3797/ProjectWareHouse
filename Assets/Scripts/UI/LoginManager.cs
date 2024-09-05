@@ -78,6 +78,7 @@ public class LoginManager : MonoBehaviour
         {
             //다음 씬(1번 씬 : firstScene(나의 경우엔 mainscene)을 로드한다.
             SceneManager.LoadScene(1);
+            PlayerPrefs.SetInt("loadSceneNum", 2);
         }
         //그렇지 않고 두 데이터의 값이 다르다면, 유저 정보 불일치 메세지를 남긴다.
         else

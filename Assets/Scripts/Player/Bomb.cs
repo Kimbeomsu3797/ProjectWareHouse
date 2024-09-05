@@ -6,7 +6,7 @@ public class Bomb : MonoBehaviour
 {
     public GameObject bombEffect;
 
-    public int attackPower = 10;
+    public int attackPower = 15;
     public float explosionRadius = 5f;
     // Start is called before the first frame update
     void Start()

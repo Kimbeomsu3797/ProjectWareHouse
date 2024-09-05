@@ -6,17 +6,25 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-
+    public static UIManager ins;
+    
     public InputField targetValue;
     public InputField enemyValue;
     public GameObject targetPrefab;
     public GameObject enemyPrefab;
     public Transform spawnPoint;
+    public Transform eSpawnPoint;
     public int minValue = 0;
-    public int maxValue = 15;
+    public int tmaxValue = 15;
+    public int emaxvalue = 12;
     private Spawnpoint tsP;
     private Spawnpoint esP;
     public float spawnDelay = 1f;
+    public List<GameObject> enemy = new List<GameObject>();
+    private void Awake()
+    {
+        ins = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -24,8 +32,8 @@ public class UIManager : MonoBehaviour
         //과녁 생성할 때 일정 시간의 딜레이를 주고 생성
         targetValue.onValueChanged.AddListener((input)=>ValidateInput(input,targetValue));
         enemyValue.onValueChanged.AddListener((input) => ValidateInput(input, enemyValue));
-        tsP = FindObjectOfType<Spawnpoint>();
-        esP = FindObjectOfType<Spawnpoint>();
+        tsP = GameObject.Find("TargetSpawn").GetComponent<Spawnpoint>();
+        esP = GameObject.Find("EnemySpawn").GetComponent<Spawnpoint>();
         if (tsP == null)
         {
             Debug.LogError("SpawnPointManager not found.");
@@ -51,9 +59,13 @@ public class UIManager : MonoBehaviour
             {
                 iF.text = minValue.ToString();
             }
-            else if (value > maxValue)
+            else if (value > tmaxValue && iF.name == "TargetInput")
             {
-                iF.text = maxValue.ToString();
+                iF.text = tmaxValue.ToString();
+            }
+            else if(value > emaxvalue && iF.name == "EnemyInput")
+            {
+                iF.text = emaxvalue.ToString();
             }
         }
     }
@@ -67,47 +79,63 @@ public class UIManager : MonoBehaviour
         {
             if (int.TryParse(tValue, out int number))
             {
-                targetSpawn(number);
+                StartCoroutine(targetSpawn(number));
             }
         }
         else if(button.name == "EnemyButton")
         {
             if (int.TryParse(eValue, out int number))
             {
-                spawnPoint = esP.GetRandomSpawnPoint();
-                for (int i = 0; i < number; i++)
-                {
-                    Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
-                    //스폰포인트 랜덤 + 좌표가 겹치지않게 리스트로 값빼주기 해야함 + 비활성화 된 스폰포인트가 활성화되면 리스트에 다시 더해줘야함
-                    //에너미를 리스트에 담아야함
-                }
+                StartCoroutine(EnemySpawn(number));
             }
         }
         else if(button.name == "TestMode")
         {
             Debug.LogError("Unknown Button");
-            //담은 에너미를 for문으로 상태를 전부 IDLE로 변경해야함
+            for(int i = 0; i < enemy.Count; i++)
+            {
+                enemy[i].GetComponent<EnemyFSM>().TestMode();
+            }
         }
     }
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     IEnumerator targetSpawn(int number)
     {
         
         for (int i = 0; i < number; i++)
         {
+            tmaxValue--;
             spawnPoint = tsP.GetRandomSpawnPoint();
             Debug.Log(number);
-            GameObject target = Instantiate(targetPrefab, spawnPoint.position, Quaternion.identity);
+            GameObject target = Instantiate(targetPrefab, spawnPoint.position, Quaternion.Euler(0,-90,0));
             Target targetScripts = target.GetComponent<Target>();
             if (targetScripts != null)
             {
                 targetScripts.SetSpawnPoint(spawnPoint);
             }
             tsP.RemoveSpawnPoint(spawnPoint);
+            yield return new WaitForSeconds(spawnDelay);
+        }
+    }
+    IEnumerator EnemySpawn(int number)
+    {
+
+        for (int i = 0; i < number; i++)
+        {
+            emaxvalue--;
+            spawnPoint = esP.GetRandomSpawnPoint();
+            Debug.Log(number);
+            enemy.Add(Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity));
+            Target targetScripts = enemy[i].GetComponent<Target>();
+            if (targetScripts != null)
+            {
+                targetScripts.SetSpawnPoint(spawnPoint);
+            }
+            esP.RemoveSpawnPoint(spawnPoint);
             yield return new WaitForSeconds(spawnDelay);
         }
     }

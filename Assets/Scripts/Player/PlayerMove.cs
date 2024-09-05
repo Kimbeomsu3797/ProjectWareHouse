@@ -60,7 +60,26 @@ public class PlayerMove : MonoBehaviour
             anim.speed = 1f;
         }
         #endregion
+        
         // hpSlider.value = (float)hp / (float)maxHp;
     }
+    public void DamageAction(int damage)
+    {
+        //만약 에너미가 공격하는 판정에 충돌하였다면 내 체력을 깎아줘
+        //체력이 0 이하라면 DIE모션으로 넘어가줘
 
+        hp -= damage;
+        if (hp > 0)
+        {
+            StartCoroutine(PlayHitEffect());
+        }
+    }
+    IEnumerator PlayHitEffect()
+    {
+        hitEffect.SetActive(true);
+
+        yield return new WaitForSeconds(0.3f);
+
+        hitEffect.SetActive(false);
+    }
 }

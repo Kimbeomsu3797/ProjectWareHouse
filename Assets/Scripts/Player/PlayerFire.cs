@@ -36,6 +36,7 @@ public class PlayerFire : MonoBehaviour
     public GameObject rifleCrosshair;
     public GameObject snipeCrosshair;
     public GameObject sniper_Zoom;
+    public int damage;
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -65,6 +66,7 @@ public class PlayerFire : MonoBehaviour
                     roriPos.sizeDelta = new Vector2(100, 100);
                     if (Input.GetMouseButton(0) && delay >= RifleDelay)
                     {
+                        damage = 1;
                         anim.SetTrigger("Shoot");
                         FireBullet();
                         delay = 0f;
@@ -78,6 +80,7 @@ public class PlayerFire : MonoBehaviour
                     roriPos.sizeDelta = new Vector2(50, 50);
                     if (Input.GetMouseButton(0) && delay >= RifleDelay)
                     {
+                        damage = 5;
                         anim.SetTrigger("Shoot");
                         FireBullet();
                         delay = 0f;
@@ -90,8 +93,10 @@ public class PlayerFire : MonoBehaviour
                 delay += Time.deltaTime;
                 if (Input.GetMouseButtonDown(0) && delay >= 1)
                 {
+                    damage = 10;
                     FireBullet();
                     delay = 0f;
+                    
                 }
                 if (Input.GetMouseButtonDown(1))
                 {
@@ -167,7 +172,9 @@ public class PlayerFire : MonoBehaviour
 
         if (Physics.Raycast(ray, out hitInfo))
         {
+            
             GameObject bullet = GetPooledBullet();
+            
             if (bullet != null)
             {
                 // 피격 이펙트의 위치를 레이가 부딪힌 지점으로 이동시킨다.
@@ -179,7 +186,16 @@ public class PlayerFire : MonoBehaviour
                 bullet.GetComponent<ParticleSystem>().Play();
                 // 일정 시간 후 비활성화
                 StartCoroutine(DeactivateBullet(bullet, bullet.GetComponent<ParticleSystem>().main.duration));
+                if (hitInfo.collider.CompareTag("Target"))
+                {
+                    hitInfo.collider.GetComponent<Target>().Damage();
+                }
+                else if (hitInfo.collider.CompareTag("Enemy"))
+                {
+                    hitInfo.collider.GetComponent<EnemyFSM>().HitEnemy(damage);
+                }
             }
+            
         }
     }
 

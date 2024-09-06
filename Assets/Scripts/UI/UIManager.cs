@@ -33,7 +33,7 @@ public class UIManager : MonoBehaviour
         targetValue.onValueChanged.AddListener((input)=>ValidateInput(input,targetValue));
         enemyValue.onValueChanged.AddListener((input) => ValidateInput(input, enemyValue));
         tsP = GameObject.Find("TargetSpawn").GetComponent<Spawnpoint>();
-        esP = GameObject.Find("EnemySpawn").GetComponent<Spawnpoint>();
+        esP = eSpawnPoint.GetComponent<Spawnpoint>();
         if (tsP == null)
         {
             Debug.LogError("SpawnPointManager not found.");
@@ -91,10 +91,11 @@ public class UIManager : MonoBehaviour
         }
         else if(button.name == "TestMode")
         {
-            Debug.LogError("Unknown Button");
             for(int i = 0; i < enemy.Count; i++)
             {
-                enemy[i].GetComponent<EnemyFSM>().TestMode();
+                Debug.Log(enemy[i].GetComponent<EnemyFSM>().m_State);
+                enemy[i].GetComponent<EnemyFSM>().m_State = EnemyFSM.EnemyState.Move;
+                Debug.Log(enemy[i].GetComponent<EnemyFSM>().m_State);
             }
         }
     }
@@ -121,21 +122,22 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(spawnDelay);
         }
     }
+    
     IEnumerator EnemySpawn(int number)
     {
 
         for (int i = 0; i < number; i++)
         {
             emaxvalue--;
-            spawnPoint = esP.GetRandomSpawnPoint();
+            eSpawnPoint = esP.GetRandomSpawnPoint();
             Debug.Log(number);
-            enemy.Add(Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity));
-            Target targetScripts = enemy[i].GetComponent<Target>();
-            if (targetScripts != null)
+            enemy.Add(Instantiate(enemyPrefab, eSpawnPoint.position, Quaternion.identity));
+            EnemyFSM targetScript = enemy[i].GetComponent<EnemyFSM>();
+            if (targetScript != null)
             {
-                targetScripts.SetSpawnPoint(spawnPoint);
+                targetScript.SetSpawnPoint(eSpawnPoint);
             }
-            esP.RemoveSpawnPoint(spawnPoint);
+            esP.RemoveSpawnPoint(eSpawnPoint);
             yield return new WaitForSeconds(spawnDelay);
         }
     }

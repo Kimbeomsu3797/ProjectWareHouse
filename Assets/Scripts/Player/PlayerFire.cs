@@ -194,6 +194,10 @@ public class PlayerFire : MonoBehaviour
                 {
                     hitInfo.collider.GetComponent<EnemyFSM>().HitEnemy(damage);
                 }
+                else
+                { 
+                    
+                }
             }
             
         }

@@ -320,7 +320,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 19606232}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 703351758}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: OnbuttonClick
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 19606231}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &19606232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16663,7 +16675,7 @@ MonoBehaviour:
   targetValue: {fileID: 69266811}
   enemyValue: {fileID: 418063209}
   targetPrefab: {fileID: 3641075310019074914, guid: e89b851940772ae42b6da902e1dd44f0, type: 3}
-  enemyPrefab: {fileID: 3641075310019074914, guid: e89b851940772ae42b6da902e1dd44f0, type: 3}
+  enemyPrefab: {fileID: 2166467073144088669, guid: a33e5cf6634af194ebaf7e2431068ffe, type: 3}
   spawnPoint: {fileID: 476550154}
   eSpawnPoint: {fileID: 1290762148}
   minValue: 0

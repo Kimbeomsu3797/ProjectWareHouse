@@ -15,7 +15,7 @@ public class EnemyFSM : MonoBehaviour
         Die,
     }
 
-    EnemyState m_State;
+    public EnemyState m_State;
 
     public float attackDistance = 2f;
 
@@ -33,11 +33,12 @@ public class EnemyFSM : MonoBehaviour
 
     public int hp = 15;
     public int maxHp = 15;
-    public Slider EnemyHpslider;
+    //public Slider EnemyHpslider;
 
     Animator anim;
 
     NavMeshAgent smith;
+    public float detectionRange = Mathf.Infinity;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +48,7 @@ public class EnemyFSM : MonoBehaviour
         maxHp = hp;
         anim = transform.GetComponentInChildren<Animator>();
         smith = GetComponent<NavMeshAgent>();
+        smith.speed = moveSpeed;
     }
 
     // Update is called once per frame
@@ -69,9 +71,10 @@ public class EnemyFSM : MonoBehaviour
     }
     void Move()
     {
+ 
         if (Vector3.Distance(transform.position, player.position) > attackDistance)
         {
-            smith.isStopped = true;
+            smith.isStopped = false;
             smith.ResetPath();
             //내비게이션으로 접근하는 최소 거리를 공격 가능 거리로 설정한다.
             smith.stoppingDistance = attackDistance;
@@ -161,5 +164,29 @@ public class EnemyFSM : MonoBehaviour
     public void TestMode()
     {
         m_State = EnemyState.Move;
+    }
+    [SerializeField]
+    private Transform spawnPoint;
+    public void SetSpawnPoint(Transform spawnPoint)
+    {
+        this.spawnPoint = spawnPoint;
+    }
+    //타켓에 디스트로이 관련 함수를 작성하고 플레이어 파이어에서 호출?
+    void OnDestroy()
+    {
+        if (spawnPoint != null)
+        {
+            Spawnpoint spm = FindObjectOfType<Spawnpoint>();
+            if (spm != null)
+            {
+                spm.AddSpawnPoint(spawnPoint); // 스폰 포인트 다시 활성화
+                Debug.Log("Spawn point reactivated: " + spawnPoint.name);
+            }
+            else
+            {
+                Debug.LogWarning("Spawnpoint not found!");
+            }
+        }
+        UIManager.ins.emaxvalue++;
     }
 }

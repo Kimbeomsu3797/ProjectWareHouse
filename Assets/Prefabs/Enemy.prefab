@@ -526,7 +526,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &1832424888752833866
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -588,11 +588,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b28b82a0efdbad44eb693f22c1b42992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  findDistance: 8
   attackDistance: 2
   moveSpeed: 3
+  moveDistance: 20
   attackPower: 3
   hp: 15
   maxHp: 15
+  EnemyHpslider: {fileID: 0}
+  spawnPoint: {fileID: 0}
 --- !u!1 &2361573220321407087
 GameObject:
   m_ObjectHideFlags: 0

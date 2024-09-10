@@ -6,17 +6,17 @@ using UnityEngine.AI;
 
 public class EnemyFSM : MonoBehaviour
 {
-    enum EnemyState
+    public enum EnemyState
     {
         Idle,
         Move,
         Attack,
-        Return,
+        Wait,
         Damaged,
         Die,
     }
 
-    EnemyState m_State;
+    public EnemyState m_State;
 
     public float findDistance = 8f;
 
@@ -49,7 +49,7 @@ public class EnemyFSM : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_State = EnemyState.Idle;
+        m_State = EnemyState.Wait;
         player = GameObject.Find("Player").transform;
         cc = GetComponent<CharacterController>();
         originPos = transform.position;
@@ -74,9 +74,6 @@ public class EnemyFSM : MonoBehaviour
             case EnemyState.Attack:
                 Attack();
                 break;
-            case EnemyState.Return:
-                Return();
-                break;
                 /*case EnemyState.Damaged:
                     Damaged();
                     break;
@@ -85,7 +82,37 @@ public class EnemyFSM : MonoBehaviour
                     break;*/
         }
         //EnemyHpslider.value = (float)hp / (float)maxHp;
+        // NavMeshAgent의 상태 확인
+        if (smith != null)
+        {
+            // NavMesh 위에 있는지 확인
+            if (!smith.isOnNavMesh)
+            {
+                Debug.Log("NavMesh 위에 없습니다!");
+            }
 
+            // 경로가 계산 중인지 확인
+            if (smith.pathPending)
+            {
+                Debug.Log("경로가 아직 계산 중입니다.");
+            }
+            else
+            {
+                // 경로가 존재하는지 확인
+                if (smith.hasPath)
+                {
+                    Debug.Log("경로가 존재합니다.");
+                    Debug.Log("목적지: " + smith.destination);
+                    Debug.Log("현재 위치: " + transform.position);
+                    Debug.Log("다음 목적지: " + smith.path.corners[0]); // 다음 경로 지점
+                }
+                else
+                {
+                    Debug.Log("경로가 없습니다.");
+                }
+            }
+        }
+        Debug.Log("목적지: " + smith.destination);
     }
 
     public void Idle()
@@ -102,13 +129,7 @@ public class EnemyFSM : MonoBehaviour
     void Move()
     {
         //cc.Move(pos * moveSpeed * Time.deltaTime);
-
-        if (Vector3.Distance(player.position, originPos) > Mathf.Infinity)
-        {
-            m_State = EnemyState.Return;
-            print("상태 전환 : Move -> Return");
-        }
-        else if (Vector3.Distance(transform.position, player.position) > attackDistance)
+        if (Vector3.Distance(transform.position, player.position) > attackDistance)
         {
             //Vector3 dir = (player.position - transform.position).normalized;
 
@@ -116,9 +137,16 @@ public class EnemyFSM : MonoBehaviour
 
             //transform.forward = dir;
             //네비게이션 에이젼트의 이동을 멈추고 경로를 초기화한다.
-            smith.isStopped = true;
-            smith.ResetPath();
+            smith.isStopped = false;
+            float chase = 0; 
+            chase += Time.deltaTime;
+            if(chase >= 3)
+            {
+                smith.ResetPath();
+                chase = 0;
+            }
 
+            anim.SetTrigger("Move");
             //내비게이션으로 접근하는 최소 거리를 공격 가능 거리로 설정한다.
             smith.stoppingDistance = attackDistance;
             //네비게이션의 목적지를 플레이어의 위치로 설정한다.
@@ -159,33 +187,6 @@ public class EnemyFSM : MonoBehaviour
     {
         player.GetComponent<PlayerMove>().DamageAction(attackPower);
     }
-    void Return()
-    {
-        if (Vector3.Distance(transform.position, originPos) > 0.1f)
-        {
-            //Vector3 dir = (originPos - transform.position).normalized;
-            //cc.Move(dir * moveSpeed * Time.deltaTime);
-            //transform.forward = dir;
-
-            //내비게이션의 목적지를 초기 저장된 위치로 설정한다.
-            smith.destination = originPos;
-            //내비게이션으로 접근하는 최소 거리를 0으로 설정한다.
-            smith.stoppingDistance = 0;
-        }
-        else
-        {
-            //내비게이션 에이전트의 이동을 멈추고 경로를 초기화한다.
-            smith.isStopped = true;
-            smith.ResetPath();
-
-            transform.position = originPos;
-            transform.rotation = originRot;
-            hp = maxHp;
-            m_State = EnemyState.Idle;
-            print("상태전환 : Return -> Idle");
-            anim.SetTrigger("MoveToIdle");
-        }
-    }
     void Damaged()
     {
         StartCoroutine(DamageProcess());
@@ -214,7 +215,7 @@ public class EnemyFSM : MonoBehaviour
     public void HitEnemy(int hitPower)
     {
         //만일, 이미 피격 상태이거나 사망 상태 또는 복귀 상태라면 아무런 처리도 하지 않고 함수를 종료한다.
-        if (m_State == EnemyState.Damaged || m_State == EnemyState.Die || m_State == EnemyState.Return)
+        if (m_State == EnemyState.Damaged || m_State == EnemyState.Die)
         {
             return;
         }
@@ -260,4 +261,5 @@ public class EnemyFSM : MonoBehaviour
         }
         UIManager.ins.emaxvalue++;
     }
+
 }

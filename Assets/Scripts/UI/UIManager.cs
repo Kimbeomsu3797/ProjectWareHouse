@@ -93,9 +93,9 @@ public class UIManager : MonoBehaviour
         {
             for(int i = 0; i < enemy.Count; i++)
             {
-                /*Debug.Log(enemy[i].GetComponent<EnemyFSM>().m_State);
+                Debug.Log(enemy[i].GetComponent<EnemyFSM>().m_State);
                 enemy[i].GetComponent<EnemyFSM>().m_State = EnemyFSM.EnemyState.Idle;
-                Debug.Log(enemy[i].GetComponent<EnemyFSM>().m_State);*/
+                Debug.Log(enemy[i].GetComponent<EnemyFSM>().m_State);
             }
         }
     }

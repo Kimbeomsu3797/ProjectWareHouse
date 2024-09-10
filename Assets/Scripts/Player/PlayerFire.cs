@@ -21,6 +21,7 @@ public class PlayerFire : MonoBehaviour
     public GameObject bulletEffectPrefab; // Prefab으로서의 총알 이펙트
     [Header("무기")]
     public int poolSize = 15;
+    public float throwpower = 15;
     private List<GameObject> bulletEffectPool;
     bool ZoomMode;
     RectTransform roriPos;
@@ -37,6 +38,8 @@ public class PlayerFire : MonoBehaviour
     public GameObject snipeCrosshair;
     public GameObject sniper_Zoom;
     public int damage;
+    public GameObject Generate;
+    public Transform bombFactory;
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -195,7 +198,7 @@ public class PlayerFire : MonoBehaviour
                     hitInfo.collider.GetComponent<EnemyFSM>().HitEnemy(damage);
                 }
                 else
-                { 
+                {
                     
                 }
             }
@@ -224,8 +227,11 @@ public class PlayerFire : MonoBehaviour
         bullet.SetActive(false);
     }
     private MouseState currentState = MouseState.Idle;
+    GameObject bomb;
+    Rigidbody rb;
     public void bulletFire()
     {
+        
         switch (currentState)
         {
             case MouseState.Idle:
@@ -234,6 +240,10 @@ public class PlayerFire : MonoBehaviour
                     Debug.Log("모션이 시작됩니다.");
                     //수류탄 생성 + 왼손에 수류탄 자녀로 배치
                     currentState = MouseState.Start;
+                    bomb = Instantiate(Generate,bombFactory.transform.position,Quaternion.identity);
+                    bomb.transform.SetParent(bombFactory.transform);
+                    rb = bomb.GetComponent<Rigidbody>();
+                    rb.useGravity = false;
                 }
                 break;
 
@@ -260,6 +270,9 @@ public class PlayerFire : MonoBehaviour
                 Debug.Log("Fire 상태에 진입했습니다.");
                 //수류탄을 자식에서 해제하고 Addforce를 사용하여 투척
                 currentState = MouseState.Idle;
+                bomb.transform.DetachChildren();
+                rb.useGravity = true;
+                rb.AddForce(Camera.main.transform.forward * throwpower, ForceMode.Impulse);
                 break;
         }
     }
